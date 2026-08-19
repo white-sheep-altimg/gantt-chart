@@ -1,0 +1,139 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "text": "タスクA",
+      "process": "業務・要件",
+      "start_date": "2026-07-06",
+      "end_date": "2026-07-12",
+      "duration": 6,
+      "progress": 0.6,
+      "owner": "山田 花子",
+      "issue": "#1020",
+      "parent": 0
+    },
+    {
+      "id": 2,
+      "text": "タスクB",
+      "process": "設計",
+      "start_date": "2026-07-08",
+      "end_date": "2026-07-13",
+      "duration": 5,
+      "progress": 0.3,
+      "owner": "鈴木 三郎",
+      "issue": "#9876",
+      "open": true,
+      "parent": 0
+    },
+    {
+      "id": 3,
+      "text": "タスクB-1",
+      "process": "設計",
+      "start_date": "2026-07-06",
+      "end_date": "2026-07-12",
+      "duration": 6,
+      "progress": 0.8,
+      "owner": "佐藤 心音",
+      "issue": "",
+      "parent": 2
+    },
+    {
+      "id": 4,
+      "text": "タスクB-2",
+      "process": "設計",
+      "start_date": "2026-07-10",
+      "end_date": "2026-07-15",
+      "duration": 5,
+      "progress": 0.1,
+      "owner": "佐藤 一郎",
+      "issue": "",
+      "parent": 2
+    },
+    {
+      "id": 5,
+      "text": "タスクC",
+      "process": "開発",
+      "start_date": "2026-07-11",
+      "end_date": "2026-07-12",
+      "duration": 1,
+      "progress": 0,
+      "owner": "高橋 英典",
+      "issue": "",
+      "parent": 0
+    },
+    {
+      "id": 6,
+      "text": "タスクD",
+      "process": "開発",
+      "start_date": "2026-07-12",
+      "end_date": "2026-07-18",
+      "duration": 6,
+      "progress": 0,
+      "owner": "高橋 英典",
+      "issue": "",
+      "parent": 0
+    },
+    {
+      "id": 7,
+      "text": "タスクE",
+      "start_date": "2026-07-11",
+      "end_date": "2026-07-15",
+      "duration": 4,
+      "progress": 0,
+      "owner": "佐藤 一郎",
+      "issue": "",
+      "parent": 0
+    },
+    {
+      "id": 8,
+      "text": "タスクF",
+      "process": "開発",
+      "start_date": "2026-07-11",
+      "end_date": "2026-07-15",
+      "duration": 4,
+      "progress": 0,
+      "owner": "高橋 和子",
+      "issue": "",
+      "parent": 0
+    },
+    {
+      "id": 9,
+      "text": "タスクG",
+      "process": "開発",
+      "start_date": "2026-07-13",
+      "end_date": "2026-07-18",
+      "duration": 5,
+      "progress": 0,
+      "owner": "山田 花子",
+      "issue": "",
+      "parent": 0
+    }
+  ],
+  "links": [
+    {
+      "id": 1,
+      "source": 1,
+      "target": 2,
+      "type": "0"
+    },
+    {
+      "id": 2,
+      "source": 2,
+      "target": 5,
+      "type": "0"
+    },
+    {
+      "source": "1",
+      "target": "4",
+      "type": "1",
+      "id": 1783534707033
+    },
+    {
+      "source": "3",
+      "target": "5",
+      "type": "2",
+      "id": 1783534707034
+    }
+  ],
+  "baselines": []
+}

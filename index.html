@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DHTMLX Gantt サンプル</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="./scripts/charts.js"></script>
+  <script src="./gantt/dhtmlxgantt.js"></script>
+  <link rel="stylesheet" href="./gantt/dhtmlxgantt.css">
+  <link rel="stylesheet" href="./style/charts.css">
+  <link rel="stylesheet" href="./style/gantt.css">
+</head>
+<body>
+  <h3>プロジェクト進捗</h3>
+  <div align='right' class='right'>
+    <input id='source_json_file' class='text' type="input" size="20">
+    <button id='reload_button' class='button' type="button" onclick="gantt_reload();" style='width: 120px'><span>更新</span></button>
+    <button id='save_button' class='button' type='button' style='width: 120px'><span>保存</span></button>
+  </div>
+  <p></p>
+  <charts>
+    <div id="charts_here">
+      <h1>ガントデータ集計チャート</h1>
+      <section class="controls" aria-label="集計条件">
+        <label>集計単位
+          <select id="period"><option value="day">日</option><option value="week" selected>週</option><option value="month">月</option></select>
+        </label>
+        <label>積み上げ項目
+          <select id="groupBy"></select>
+        </label>
+        <label>追加する休日（YYYY-MM-DD、カンマ区切り）
+          <input id="holidays" type="text" placeholder="例: 2026-07-20,2026-08-11" value="2026-07-20,2026-08-11">
+        </label>
+        <button id="redraw" type="button">再集計</button>
+      </section>
+      <p class="hint">期間は start_date と end_date の両日を含めて計算します。土日は除外し、日本の祝日も除外します。</p>
+      <p id="status" class="status" role="status"></p>
+      <section class="chart-scroll" aria-label="集計グラフ">
+        <p class="legend-note">項目数が多い場合は、グラフ下部を横スクロールしてください。</p>
+        <div id="chartSize" class="chart-size"><canvas id="summaryChart"></canvas></div>
+      </section>
+    </div>
+  </charts>
+  <main>
+    <div id="gantt_here"></div>
+  </main>
+
+  <script>
+    function drawTodayLine() {
+      const today = new Date();
+      // const today = new Date("2026-07-12T12:00:00");
+      const container = gantt.$container;
+      if (!container) return;
+
+      const dataArea = container.querySelector(".gantt_data_area");
+      if (!dataArea) return;
+
+      // Remove old lines first
+      const oldLines = dataArea.querySelectorAll('.today-line');
+      oldLines.forEach(l => l.remove());
+
+      const pos = gantt.posFromDate(today);
+
+      const line = document.createElement("div");
+      line.className = "today-line";
+      line.style.left = pos + "px";
+      dataArea.appendChild(line);
+    }
+
+    // gantt.init() 直後 → onDataRender → parse() → onDataRender
+    // parse() 後に呼ばれるので、正しい posFromDate 値が得られる
+    gantt.attachEvent("onDataRender", drawTodayLine);
+
+    // constant definitions
+    const GIT_REMOTE_URI = "http://localhost:3000";
+    const PROJECT_NAME = "foo";
+    const INITIAL_DATAFILE = "data.json";
+  </script>
+  <script>
+    const textEditor = { type: "text", map_to: "text" };
+    const processEditor = { type: "text", map_to: "process" };
+    const startDateEditor = { type: "date", map_to: "start_date", min: new Date(2026, 0, 1), max: new Date(2027,12,31) };
+    const endDateEditor = { type: "date", map_to: "end_date", min: new Date(2026, 0, 1), max: new Date(2027,12,31) };
+    const durationEditor = { type: "number", map_to: "duration", min: 0, max: 100 };
+    const ownerEditor = { type: "text", map_to: "owner" };
+    const issueEditor = { type: "text", map_to: "issue" };
+    gantt.config.xml_date = "%Y-%m-%d";
+    gantt.config.show_markers = true;
+
+    // 担当者カラムを追加
+    gantt.config.columns = [
+      { name: "text",   tree: true,  width: 200, label: "タスク名", resize: true, align: "left", editor: textEditor },
+      { name: "process", label: "部署", width: 110, resize: true, align: "center", editor: processEditor },
+      { name: "start_date", label: "開始日", width: 110, resize: true, align: "center", editor: startDateEditor },
+      { name: "end_date", label: "完了日", width: 110, resize: true, align: "center", editor: endDateEditor },
+      { name: "duration", label: "日数", width: 50, resize: true, align: "right", editor: durationEditor },
+      { name: "owner", label: "担当者", width: 100, resize: true, align: "center", editor: ownerEditor },
+      { name: "progress", width: 60, label: "進捗", resize: true, align: "center",
+        template: function (item) {
+	  if (item.progress >= 1)          return "済";
+	  if (item.progress == 0)          return "未";
+	  return Math.round(item.progress * 100) + "%";
+	},
+      },
+      { name: "issue", label: "issue", width: 75, resize: true, align: "center", editor: issueEditor },
+      { name: "add", width: 40 }
+    ];
+
+    // Lightbox
+    gantt.config.lightbox.sections = [
+        { name: "text",       label: "タスク名", height: 38, map_to: "text", type: "textarea", focus: true },
+        { name: "start_date", label: "開始日",   height: 72, type: "duration", map_to: "auto" },
+        { name: "end_date",   label: "完了日",   height: 72, type: "duration", map_to: "auto" },
+	{ name: "owner",      label: "担当者",   height: 38, type: "textarea", map_to: "owner" },
+	{ name: "issue",      label: "Issue",   height: 38, type: "textarea", map_to: "issue" }
+    ];
+    // プロセッシング関数（taskオブジェクトをganttデータに変換）
+    function mapTask(t) {
+      return {
+        id:         t.id,
+        text:       t.text,
+        start_date: t.start_date,
+        end_date:   t.end_date,
+        duration:   t.duration,
+        parent:     t.parent || null,
+        progress:   t.progress,
+        // customフィールド
+        issue:      t.issue,
+        owner:      t.owner
+      };
+    }
+
+    const isWeekendStyle = (date) => {
+      const day = gantt.date.day_start(date).getDay();
+      return (day === 0 || day === 6) ? "weekend" : "";
+    };
+    gantt.config.scales = [
+      // {unit: "month", step: 1, format: "%F, %Y"},
+      // {unit: "day", step: 1, format: "%j, %D"}
+      {unit: "month", step: 1, format: "%Y/%m"},
+      {unit: "day", step: 1, format: "%j (%D)", css: isWeekendStyle }
+    ];
+
+    // 選択行の背景色を変更する
+    gantt.templates.task_row_class = (start, end, task) =>
+      gantt.isSelectedTask(task.id) ? "gantt-timeline__row--highlight" : "";
+    gantt.templates.grid_row_class = (start, end, task) =>
+      gantt.isSelectedTask(task.id) ? "gantt-timeline__row--highlight" : "";
+
+    // 完了日の表示を完了日を含む形式にする
+    const dateToStr = gantt.date.date_to_str("%Y-%m-%d");
+    gantt.templates.grid_date_format = (date, column) =>  {
+      if (column === "end_date") {
+        return dateToStr(new Date(date.valueOf() - 86400000));
+      }
+      else {
+        return dateToStr(date);
+      }
+    }
+
+    // tooltip
+    gantt.templates.tooltip_date_format=function (date){
+        var formatFunc = gantt.date.date_to_str("%Y-%m-%d");
+        return formatFunc(date);
+    };
+    gantt.templates.tooltip_text = (start, end, task) =>
+      `<b>タスク:</b>　　${task.text}<b>担当者:</b>　　${task.owner}<b>開始日</b>　　` +
+      gantt.templates.tooltip_date_format(start) + '</br>' + `<b>開始日</b>　　` +
+      gantt.templates.tooltip_date_format(new Date(end - 86400000)) + '</br>' +
+      `<b>Issue</b>　　${task.issue}`;
+
+    // zoom
+    var zoomConfig = {
+      levels: [
+        {name:"day",
+         scale_height: 50,
+         min_column_width:50,
+         scales:[{unit: "month", format: "%Y / %n"},
+        {unit: "day",   format: "%j %D"}]	},
+        {name:"month",
+         scale_height: 50,
+         min_column_width:120,
+         scales:[{unit: "month",format: "%Y / %n"},
+        {unit: "week", format: "週"}]	},
+        {name:"year",
+         scale_height: 50,
+         min_column_width: 30,
+         scales:[{unit: "year", format: "%Y"},
+        {unit: "month",format: "%n"}]	}
+      ]
+    };
+    // gantt.ext.zoom.init(zoomConfig);
+    // gantt.ext.zoom.setLevel("day");
+
+    // 週末の表示色を変更
+    gantt.templates.timeline_cell_class = function (item, date) {
+      if (date.getDay() == 0 || date.getDay() == 6) {
+        return "weekend"
+      }
+    };
+
+    // リンクの色指定
+    gantt.templates.link_class = function (link) {
+      var types = gantt.config.links;
+      switch (link.type) {
+      case types.finish_to_start:
+        return "finish_to_start";
+        break;
+      case types.start_to_start:
+        return "start_to_start";
+        break;
+      case types.finish_to_finish:
+        return "finish_to_finish";
+        break;
+      }
+    };
+
+    // クリックでIssueを開く
+    gantt.attachEvent("onTaskDblClick", (id, e) => {
+      json = gantt.serialize();
+      data = json.data[id-1];
+      issue = data.issue;
+      if(issue[0] == "#"){
+        issue = issue.substring(1);
+      }
+      if(issue != ""){
+        uri = GIT_REMOTE_URI + "/" + PROJECT_NAME + "/issues/" + issue;
+        window.open(uri, '_blank');
+      }
+    });
+
+    // reload
+    gantt_reload = function (){
+      let src_json = document.getElementById('source_json_file').value;
+      if(src_json === "") {
+        if((src_json = localStorage.getItem("gantt_source_json")) === "") {
+          src_json = "data.json";
+        }
+        document.getElementById('source_json_file').value = src_json;
+      }
+      localStorage.setItem("gantt_source_json", src_json);
+      window.location.reload(true);
+    }
+
+    // locale
+    gantt.i18n.setLocale("jp");
+    gantt.locale.labels = Object.assign(
+      gantt.locale.labels,
+      {section_type         :"タイプ",
+       section_parent       :"親作業",
+       section_description  :"名称",
+       section_details      :"詳細",
+       section_progress     :"進捗",
+       section_owner        :"担当",
+       new_task             :"作業名称",
+       confirm_deleting     :"完全に削除されますが、よろしいですか?",
+       link                 :"リンク",
+       confirm_link_deleting:"を削除しますか?"});
+
+    gantt.plugins({ tooltip: true });
+    gantt.config.sort = true;
+    gantt.init("gantt_here");
+    if((src_json = localStorage.getItem("gantt_source_json")) === "") {
+        src_json = "data.json";
+    }
+    document.getElementById('source_json_file').value = src_json;
+    charts_load(null, src_json).then(json_data => {
+      charts_init(json_data, null);
+      gantt.parse(JSON.parse(JSON.stringify(json_data)));
+    });
+  </script>
+
+  <script>
+    function butotnClick(){
+      const json = gantt.serialize();
+      const blob = new Blob([JSON.stringify(json, null, '  ')], {
+        type: 'application/json',
+      });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'gantt-export.json';
+      link.click();
+      link.remove();
+    }
+    let saveBtn = document.getElementById('save_button');
+    saveBtn.addEventListener('click', butotnClick);
+  </script>
+
+  <script>
+    // タスクの更新（duration変更含む）をキャッチ
+    // ドラッグによるduration変更の場合，こちらが先にキャッチする
+    gantt.attachEvent("onAfterTaskUpdate", function(id, task){
+        // task.start_date, task.duration, task.end_date など
+        const json_data = gantt.serialize();
+        charts_init(json_data, null);
+        return true;
+    });
+    // ドラッグによるduration変更をキャッチ
+    gantt.attachEvent("onAfterTaskDrag", function(mode, task){
+        // mode: "resize" (duration変更) / "move" (位置変更) / "side-resize"
+        const json_data = gantt.serialize();
+        charts_init(json_data, null);
+        return true;
+    });
+  </script>
+
+</body>
+</html>

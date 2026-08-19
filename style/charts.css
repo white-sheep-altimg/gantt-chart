@@ -1,0 +1,83 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+body {
+  margin: 0;
+  background: #f4f6f8;
+  color: #18212b;
+}
+h1 {
+  margin: 0 0 20px;
+  font-size: 1.6rem;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: end;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #dce2e8;
+  border-radius: 8px;
+}
+label {
+  display: grid;
+  gap: 6px;
+  font-size: .9rem;
+  font-weight: 600;
+}
+select, input, button {
+  min-height: 36px;
+  box-sizing: border-box;
+  border: 1px solid #b9c2cc;
+  border-radius: 5px;
+  background: #fff;
+  padding: 6px 10px;
+  font: inherit;
+}
+input[type="date"] {
+  min-width: 145px;
+}
+input[type="text"] {
+  min-width: 270px;
+}
+button {
+  cursor: pointer;
+  background: #1769aa;
+  color: #fff;
+  border-color: #1769aa;
+  font-weight: 600;
+}
+button:hover {
+  background: #0f568f;
+}
+.hint {
+  margin: 12px 0;
+  color: #52606d;
+  font-size: .9rem;
+}
+.status {
+  min-height: 1.4em;
+  margin: 8px 0;
+  color: #a33a00;
+}
+.chart-scroll {
+  overflow-x: auto;
+  padding: 16px 0 8px;
+  background: #fff;
+  border: 1px solid #dce2e8;
+  border-radius: 8px;
+}
+.chart-size {
+  position: relative;
+  min-width: 520px;
+  height: 240px;
+  padding: 0 16px;
+}
+.legend-note {
+  margin: 0 16px 12px;
+  color: #52606d;
+  font-size: .85rem;
+}
+@media (max-width: 700px) { main { padding: 16px; } .chart-size { height: 420px; } input[type="text"] { min-width: 220px; } }

@@ -1,0 +1,103 @@
+html, body { margin: 0; padding: 0; height: 100%; }
+.right {
+  border: 1px solid #999;
+  padding: 10px;
+  background: #fff9cc;
+  margin-top:10px;
+}
+.box {
+  height: 50px;
+  width:  50px;
+  background-color: #2196F3;
+}
+
+#gantt_here { width: 100%; height: 500px; }
+.gantt_grid_scale {
+  background-color: #e0e0e0;
+}
+.gantt_task_scale {
+  background-color: #e0e0e0;
+}
+.gantt_task_vscroll {
+  background-color: #e0e0e0;
+}
+.gantt_grid_scale, .gantt_task_scale,
+.gantt_task .gantt_task_scale .gantt_scale_cell,
+.gantt_grid_scale .gantt_grid_head_cell {
+  color: #000;
+  font-size: 16px;
+  border-bottom: 1px solid #0e0e0e;
+}
+.gantt_scale_cell,
+.gantt_grid div,
+.gantt_data_area div {
+  font-size: 16px;
+}
+/* text color */
+.gantt_task_content {
+  color: #000000;
+  font-weight: bold;
+}
+/* task line */
+.gantt_task_line {
+  background-color: #ddddff;
+  border: 1px solid #0098b0;
+  border-radius: 6px;
+}
+/* progress fill */
+.gantt_task_progress {
+  background: #88ffdd;
+}
+/* selected line */
+.gantt-timeline__row--highlight {
+  background-color: #ffff7a !important;
+}
+.weekday {
+  border: 1px solid #f0f0f0;
+}
+.weekend {
+  background: #fff0f5;
+  border: 1px solid #f0f0f0;
+}
+
+.gantt_task_link.start_to_start {
+  --dhx-gantt-link-background: #dd5640;
+}
+
+.gantt_task_link.finish_to_start{
+  --dhx-gantt-link-background: #7576ba;
+}
+
+.gantt_task_link.finish_to_finish {
+  --dhx-gantt-link-background: #55d822;
+}
+
+.today-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: red;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.gantt_tooltip {
+  padding: 8px 30px 8px 8px;
+  position: absolute;
+  z-index: 50;
+  white-space: nowrap;
+  box-shadow: var(--dhx-gantt-box-shadow-m);
+  background: #ffffaa;
+  color: #000000;
+  border: var(--dhx-gantt-tooltip-border);
+  font-family: var(--dhx-gantt-font-family);
+  font-size: var(--dhx-gantt-regular-font-size);
+  line-height: var(--dhx-gantt-regular-line-height);
+  font-weight: var(--dhx-gantt-regular-font-weight);
+  border-radius: var(--dhx-gantt-tooltip-border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px
+}
