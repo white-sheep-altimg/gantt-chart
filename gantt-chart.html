@@ -7,6 +7,7 @@
   <script src="./scripts/chart.umd.js"></script>
   <script src="./scripts/stacked_graph.js"></script>
   <script src="./gantt/dhtmlxgantt.js"></script>
+  <script src="gantt.json"></script>
   <link rel="stylesheet" href="./gantt/dhtmlxgantt.css">
   <link rel="stylesheet" href="./style/charts.css">
   <link rel="stylesheet" href="./style/gantt.css">
@@ -40,7 +41,6 @@
     <div id="gantt_here"></div>
   </main>
   <div align='right' class='right'>
-    <input id='source_json_file' class='text' type="input" size="20">
     <button id='reload_button' class='button' type="button" onclick="gantt_reload();" style='width: 120px'><span>更新</span></button>
     <button id='save_button' class='button' type='button' style='width: 120px'><span>保存</span></button>
   </div>
@@ -231,14 +231,6 @@
 
     // reload
     gantt_reload = function (){
-      let src_json = document.getElementById('source_json_file').value;
-      if(src_json === "") {
-        if((src_json = localStorage.getItem("gantt_source_json")) === "") {
-          src_json = INITIAL_DATAFILE;
-        }
-        document.getElementById('source_json_file').value = src_json;
-      }
-      localStorage.setItem("gantt_source_json", src_json);
       window.location.reload(true);
     }
 
@@ -260,14 +252,9 @@
     gantt.plugins({ tooltip: true });
     gantt.config.sort = true;
     gantt.init("gantt_here");
-    if((src_json = localStorage.getItem("gantt_source_json")) === "") {
-        src_json = INITIAL_DATAFILE;
-    }
-    document.getElementById('source_json_file').value = src_json;
-    charts_load(null, src_json).then(json_data => {
-      charts_init(json_data, null);
-      gantt.parse(JSON.parse(JSON.stringify(json_data)));
-    });
+    json_data = gantt_data;
+    charts_init(json_data, null);
+    gantt.parse(JSON.parse(JSON.stringify(json_data)));
   </script>
 
   <script>

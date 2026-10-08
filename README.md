@@ -38,12 +38,14 @@
 | ファイル | 役割 |
 | --- | --- |
 | `index.html` | メイン画面、集計条件の入力欄、DHTMLX Gantt、Chart.js の読み込み |
+| `gantt-chart.html` | `gantt.json` に定義の内容で作画・集計するメイン画面（完全ローカル版） |
 | `scripts/charts.js` | `data.json` の読み込み、休日判定、集計、グラフ描画 |
 | `style/charts.css` | 集計グラフ画面のスタイル |
 | `style/gantt.css` | ガントチャートのスタイル |
 | `gantt/dhtmlxgantt.js` | DHTMLX Gantt ライブラリ（ラッパー） |
 | `gantt/dhtmlxgantt.css` | DHTMLX Gantt スタイルシート |
 | `data.json` | 集計元データ（タスク・リンク・ベースライン） |
+| `gantt.json` | 集計元データ（タスク・リンク・ベースライン） |
 
 ## 起動方法
 
@@ -65,6 +67,9 @@ Chart.js は次の CDN から読み込みます。CDN へ接続できない環�
 ```text
 https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 ```
+
+`gantt-chart.html` はHTTPDがなくても動作します。
+
 
 ## 使い方
 
