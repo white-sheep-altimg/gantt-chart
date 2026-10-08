@@ -63,6 +63,7 @@ http://localhost:8000/index.html
 ```
 
 Chart.js は次の CDN から読み込みます。CDN へ接続できない環境では、Chart.js をローカル配置し、`index.html` の読み込み先を変更してください。
+現在は `chart.js` はローカルに配置されています。
 
 ```text
 https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
