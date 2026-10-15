@@ -259,7 +259,7 @@
     gantt.config.sort = true;
     gantt.init("gantt_here");
     json_data = gantt_data;
-    charts_init(json_data, null);
+    charts_init(json_data, gantt.config.columns);
     gantt.parse(JSON.parse(JSON.stringify(json_data)));
   </script>
 

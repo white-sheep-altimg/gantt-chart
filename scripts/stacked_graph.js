@@ -171,12 +171,12 @@ async function charts_load(data, filename) {
   return json;
 }
 
-async function charts_init(json) {
+async function charts_init(json, columns) {
   try {
     rows = Array.isArray(json.data) ? json.data : [];
     const keys = collectGroupKeys();
     if (!keys.length) throw new Error('集計対象となる項目がありません');
-    keys.forEach((key) => $('groupBy').add(new Option(key, key)));
+    columns.forEach((column, index) => $('groupBy').add(new Option(column.label, column.name)) );
     $('groupBy').value = keys.includes('process') ? 'process' : keys[0];
     $('redraw').addEventListener('click', draw);
     $('period').addEventListener('change', draw);
