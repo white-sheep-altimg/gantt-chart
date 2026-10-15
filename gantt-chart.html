@@ -43,6 +43,11 @@
   <div align='right' class='right'>
     <button id='reload_button' class='button' type="button" onclick="gantt_reload();" style='width: 120px'><span>更新</span></button>
     <button id='save_button' class='button' type='button' style='width: 120px'><span>保存</span></button>
+    <br><br>
+    Issue:
+    <input id='issue_url' type='text' style='width: 500px' placeholder='http://localhost:3000' value='http://localhost:3000'>
+    <input id='project_name' type='text' placeholder='myProject' value='myProject'>
+    <input id='issue_ext' type='text' placeholder='.txt'>
   </div>
 
   <script>
@@ -72,9 +77,10 @@
     gantt.attachEvent("onDataRender", drawTodayLine);
 
     // constant definitions
-    const GIT_REMOTE_URI = "http://localhost:3000";
-    const PROJECT_NAME = "foo";
-    const INITIAL_DATAFILE = "data.json";
+    var ISSUE_REMOTE_URI = document.getElementById('issue_url').value;
+    var ISSUE_REMOTE_URI_EXT = document.getElementById('issue_ext').value;
+    var PROJECT_NAME = document.getElementById('project_name').value;
+    const INITIAL_DATAFILE = "gantt.json";
   </script>
   <script>
     const textEditor = { type: "text", map_to: "text" };
@@ -89,7 +95,7 @@
 
     // 担当者カラムを追加
     gantt.config.columns = [
-      { name: "text",   tree: true,  width: 200, label: "タスク名", resize: true, align: "left", editor: textEditor },
+      { name: "text", tree: true,  width: 200, label: "タスク名", resize: true, align: "left", editor: textEditor },
       { name: "process", label: "部署", width: 110, resize: true, align: "center", editor: processEditor },
       { name: "start_date", label: "開始日", width: 110, resize: true, align: "center", editor: startDateEditor },
       { name: "end_date", label: "完了日", width: 110, resize: true, align: "center", editor: endDateEditor },
@@ -102,7 +108,7 @@
 	  return Math.round(item.progress * 100) + "%";
 	},
       },
-      { name: "issue", label: "issue", width: 75, resize: true, align: "center", editor: issueEditor },
+      { name: "issue", label: "Issue", width: 75, resize: true, align: "center", editor: issueEditor },
       { name: "add", width: 40 }
     ];
 
@@ -164,7 +170,7 @@
         return formatFunc(date);
     };
     gantt.templates.tooltip_text = (start, end, task) =>
-      `<b>タスク:</b>　　${task.text}<b>担当者:</b>　　${task.owner}<b>開始日</b>　　` +
+      `<b>タスク:</b>　　${task.task}<b>担当者:</b>　　${task.owner}<b>開始日</b>　　` +
       gantt.templates.tooltip_date_format(start) + '</br>' + `<b>開始日</b>　　` +
       gantt.templates.tooltip_date_format(new Date(end - 86400000)) + '</br>' +
       `<b>Issue</b>　　${task.issue}`;
@@ -224,7 +230,7 @@
         issue = issue.substring(1);
       }
       if(issue != ""){
-        uri = GIT_REMOTE_URI + "/" + PROJECT_NAME + "/issues/" + issue;
+        uri = ISSUE_REMOTE_URI + "/" + PROJECT_NAME + "/issues/" + issue + ISSUE_REMOTE_URI_EXT;
         window.open(uri, '_blank');
       }
     });
@@ -258,19 +264,19 @@
   </script>
 
   <script>
-    function butotnClick(){
+    function saveButtonClick(){
       const json = gantt.serialize();
-      const blob = new Blob([JSON.stringify(json, null, '  ')], {
+      const blob = new Blob(["var gantt_data = " + JSON.stringify(json, null, '  ')], {
         type: 'application/json',
       });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'gantt-export.json';
+      link.download = 'gantt.json';
       link.click();
       link.remove();
     }
     let saveBtn = document.getElementById('save_button');
-    saveBtn.addEventListener('click', butotnClick);
+    saveBtn.addEventListener('click', saveButtonClick);
   </script>
 
   <script>
