@@ -170,7 +170,7 @@
         return formatFunc(date);
     };
     gantt.templates.tooltip_text = (start, end, task) =>
-      `<b>タスク:</b>　　${task.task}<b>担当者:</b>　　${task.owner}<b>開始日</b>　　` +
+      `<b>タスク:</b>　　${task.text}<b>担当者:</b>　　${task.owner}<b>開始日</b>　　` +
       gantt.templates.tooltip_date_format(start) + '</br>' + `<b>開始日</b>　　` +
       gantt.templates.tooltip_date_format(new Date(end - 86400000)) + '</br>' +
       `<b>Issue</b>　　${task.issue}`;
