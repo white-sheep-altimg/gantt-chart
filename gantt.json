@@ -3,14 +3,15 @@ var gantt_data = {
     {
       "id": 1,
       "text": "タスクA",
-      "process": "業務・要件",
+      "process": "要件",
       "start_date": "2026-07-06",
       "end_date": "2026-07-12",
       "duration": 6,
       "progress": 0.6,
       "owner": "山田 花子",
       "issue": "#1020",
-      "parent": 0
+      "parent": 0,
+      "priority": "高"
     },
     {
       "id": 2,
@@ -23,7 +24,8 @@ var gantt_data = {
       "owner": "鈴木 三郎",
       "issue": "#9876",
       "open": true,
-      "parent": 0
+      "parent": 0,
+      "priority": "高"
     },
     {
       "id": 3,
@@ -35,7 +37,8 @@ var gantt_data = {
       "progress": 0.8,
       "owner": "佐藤 心音",
       "issue": "",
-      "parent": 2
+      "parent": 2,
+      "priority": "中"
     },
     {
       "id": 4,
@@ -47,7 +50,8 @@ var gantt_data = {
       "progress": 0.1,
       "owner": "佐藤 一郎",
       "issue": "",
-      "parent": 2
+      "parent": 2,
+      "priority": "低"
     },
     {
       "id": 5,
@@ -59,7 +63,8 @@ var gantt_data = {
       "progress": 0,
       "owner": "高橋 英典",
       "issue": "",
-      "parent": 0
+      "parent": 0,
+      "priority": ""
     },
     {
       "id": 6,
@@ -82,14 +87,15 @@ var gantt_data = {
       "progress": 0,
       "owner": "佐藤 一郎",
       "issue": "",
-      "parent": 0
+      "parent": 0,
+      "process": "ー"
     },
     {
       "id": 8,
       "text": "タスクF",
-      "process": "開発",
-      "start_date": "2026-07-11",
-      "end_date": "2026-07-15",
+      "process": "テスト",
+      "start_date": "2026-07-12",
+      "end_date": "2026-07-16",
       "duration": 4,
       "progress": 0,
       "owner": "高橋 和子",
@@ -99,7 +105,7 @@ var gantt_data = {
     {
       "id": 9,
       "text": "タスクG",
-      "process": "開発",
+      "process": "テスト",
       "start_date": "2026-07-13",
       "end_date": "2026-07-18",
       "duration": 5,
@@ -107,6 +113,19 @@ var gantt_data = {
       "owner": "山田 花子",
       "issue": "",
       "parent": 0
+    },
+    {
+      "id": 1792125003938,
+      "start_date": "2026-07-18",
+      "text": "リリース",
+      "duration": 1,
+      "end_date": "2026-07-19",
+      "progress": 0,
+      "parent": 0,
+      "process": "ー",
+      "owner": "",
+      "issue": "",
+      "priority": "高"
     }
   ],
   "links": [
@@ -133,6 +152,24 @@ var gantt_data = {
       "target": "5",
       "type": "2",
       "id": 1783534707034
+    },
+    {
+      "source": "7",
+      "target": "8",
+      "type": "0",
+      "id": 1792125116714
+    },
+    {
+      "source": "9",
+      "target": "1792125003938",
+      "type": "0",
+      "id": 1792125116715
+    },
+    {
+      "source": "4",
+      "target": "6",
+      "type": "0",
+      "id": 1792125201424
     }
   ],
   "baselines": []
