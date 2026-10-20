@@ -38,7 +38,6 @@
 | ファイル | 役割 |
 | --- | --- |
 | `index.html` | メイン画面、集計条件の入力欄、DHTMLX Gantt、Chart.js の読み込み |
-| `gantt-chart.html` | `gantt.json` に定義の内容で作画・集計するメイン画面（完全ローカル版） |
 | `scripts/charts.js` | `data.json` の読み込み、休日判定、集計、グラフ描画 |
 | `style/charts.css` | 集計グラフ画面のスタイル |
 | `style/gantt.css` | ガントチャートのスタイル |
@@ -49,17 +48,10 @@
 
 ## 起動方法
 
-`data.json` はブラウザの `fetch` で読み込むため、HTML ファイルを直接ダブルクリックするのではなく、HTTP サーバー経由で開きます。
-
-```bash
-cd /Users/hsato/Projects/gantt-chart
-python3 -m http.server 8000
-```
-
-ブラウザで次の URL を開きます。
+ブラウザで次のファイルを開きます。
 
 ```text
-http://localhost:8000/index.html
+index.html
 ```
 
 Chart.js は次の CDN から読み込みます。CDN へ接続できない環境では、Chart.js をローカル配置し、`index.html` の読み込み先を変更してください。
@@ -69,14 +61,12 @@ Chart.js は次の CDN から読み込みます。CDN へ接続できない環�
 https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 ```
 
-`gantt-chart.html` はHTTPDがなくても動作します。
-
 
 ## 使い方
 
 ### 集計グラフ
 
-1. `index.html` を HTTP サーバー経由で開きます。
+1. `index.html` をWebブラウザで開きます。
 2. 「集計単位」で「日」「週」「月」のいずれかを選択します。
 3. 「積み上げ項目」で、例えば `process`、`text`、`owner` などを選択します。
 4. 必要に応じて、追加する休日を `YYYY-MM-DD` 形式で入力します。
@@ -137,6 +127,9 @@ https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 | `id` | タスクの一意な ID |
 | `text` | タスク名 |
 | `process` | 部署・工程区分 |
+| `impact` | 重要度 |
+| `feasibility` | 実現性 |
+| `priority` | 優先度 |
 | `start_date` | 開始日（`YYYY-MM-DD`） |
 | `end_date` | 完了日（`YYYY-MM-DD`） |
 | `duration` | 日数 |

@@ -11,7 +11,9 @@ var gantt_data = {
       "owner": "山田 花子",
       "issue": "#1020",
       "parent": 0,
-      "priority": "高"
+      "priority": "高",
+      "impact": "3",
+      "feasibility": "2"
     },
     {
       "id": 2,
@@ -25,7 +27,9 @@ var gantt_data = {
       "issue": "#9876",
       "open": true,
       "parent": 0,
-      "priority": "高"
+      "priority": "高",
+      "impact": "0",
+      "feasibility": "0"
     },
     {
       "id": 3,
@@ -64,7 +68,8 @@ var gantt_data = {
       "owner": "高橋 英典",
       "issue": "",
       "parent": 0,
-      "priority": ""
+      "priority": "",
+      "impact": ""
     },
     {
       "id": 6,
@@ -88,7 +93,9 @@ var gantt_data = {
       "owner": "佐藤 一郎",
       "issue": "",
       "parent": 0,
-      "process": "ー"
+      "process": "ー",
+      "impact": "2",
+      "feasibility": "3"
     },
     {
       "id": 8,
@@ -112,7 +119,8 @@ var gantt_data = {
       "progress": 0,
       "owner": "山田 花子",
       "issue": "",
-      "parent": 0
+      "parent": 0,
+      "impact": ""
     },
     {
       "id": 1792125003938,
