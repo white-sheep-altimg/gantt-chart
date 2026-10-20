@@ -100,7 +100,7 @@
         { key: "低", label: "低" }
     ] };
     const impactEditor = { type: "text", map_to: "impact", type: "select", options: [
-        { key: "0", label: "ー" },
+        { key: "", label: "ー" },
         { key: "1", label: "個人・チームで完結" },
         { key: "2", label: "要連携" },
         { key: "3", label: "効率に関わる・要報告" },
@@ -108,12 +108,12 @@
         { key: "5", label: "重大事案" }
     ] };
     const feasibilityEditor = { type: "text", map_to: "feasibility", type: "select", options: [
-        { key: "0", label: "ー" },
-        { key: "1", label: "1人で1日以内に完了" },
-        { key: "2", label: "チームで数日以内に完了" },
+        { key: "", label: "ー" },
+        { key: "1", label: "他部署と要調整または1ヶ月以上必要" },
+        { key: "2", label: "チームで1ヶ月未満で完了" },
         { key: "3", label: "チームで1週間以内に完了" },
-        { key: "4", label: "チームで1ヶ月未満で完了" },
-        { key: "5", label: "他部署と要調整または1ヶ月以上必要" }
+        { key: "4", label: "チームで数日以内に完了" },
+        { key: "5", label: "1人で1日以内に完了" }
     ] };
     const startDateEditor = { type: "date", map_to: "start_date", min: new Date(2026, 0, 1), max: new Date(2027,12,31) };
     const endDateEditor = { type: "date", map_to: "end_date", min: new Date(2026, 0, 1), max: new Date(2027,12,31) };

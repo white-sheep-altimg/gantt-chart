@@ -1,6 +1,6 @@
 # ガントデータ集計チャート
 
-`data.json` の `data` 配列を読み込み、タスク期間を営業日単位で集計して Chart.js の積み上げ棒グラフとして表示するとともに、DHTMLX Gantt を使ったインタラクティブなガントチャートも併せて表示する HTML アプリケーションです。
+`gantt.json` の `data` 配列を読み込み、タスク期間を営業日単位で集計して Chart.js の積み上げ棒グラフとして表示するとともに、DHTMLX Gantt を使ったインタラクティブなガントチャートも併せて表示する HTML アプリケーションです。
 
 ![画面例](/images/sample01.png)
 
@@ -38,12 +38,11 @@
 | ファイル | 役割 |
 | --- | --- |
 | `index.html` | メイン画面、集計条件の入力欄、DHTMLX Gantt、Chart.js の読み込み |
-| `scripts/charts.js` | `data.json` の読み込み、休日判定、集計、グラフ描画 |
+| `scripts/charts.js` | `gantt.json` の読み込み、休日判定、集計、グラフ描画 |
 | `style/charts.css` | 集計グラフ画面のスタイル |
 | `style/gantt.css` | ガントチャートのスタイル |
 | `gantt/dhtmlxgantt.js` | DHTMLX Gantt ライブラリ（ラッパー） |
 | `gantt/dhtmlxgantt.css` | DHTMLX Gantt スタイルシート |
-| `data.json` | 集計元データ（タスク・リンク・ベースライン） |
 | `gantt.json` | 集計元データ（タスク・リンク・ベースライン） |
 
 ## 起動方法
@@ -89,7 +88,7 @@ https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 - 「保存」ボタンで現在のタスクデータを JSON としてダウンロードできます。
 - 「更新」ボタンでデータファイルのパスを入力し、リロードできます。
 
-## `data.json` の形式
+## `gantt.json` の形式
 
 最低限、各要素に `start_date` と `end_date` が必要です。その他の項目名は固定されていません。
 
@@ -173,7 +172,7 @@ https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 
 ## サンプルデータでの確認例
 
-現在の `data.json` で `process`、集計単位「月」を選択した場合、2026年7月は次のように集計されます。
+現在の `gantt.json` で `process`、集計単位「月」を選択した場合、2026年7月は次のように集計されます。
 
 | 項目 | 日数 |
 | --- | ---: |
@@ -197,7 +196,7 @@ https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 - ブラウザで動作する vanilla JavaScript で実装しています。
 - グラフ描画には Chart.js 4.4.4 を使用しています。
 - ガントチャートには DHTMLX Gantt を使用しています。
-- `data.json` の読み込みに失敗した場合は、画面上にエラーを表示します。
+- `gantt.json` の読み込みに失敗した場合は、画面上にエラーを表示します。
 - 日付が不正、または `start_date` が `end_date` より後の要素は集計対象外になります。
 - `duration` や `progress` は集計には参照せず、必ず `start_date` と `end_date` から日数を計算します。
 - ガントチャートでのタスク更新（ドラッグによる期間変更含む）は `onAfterTaskUpdate` / `onAfterTaskDrag` で検知し、集計グラフを自動更新します。
