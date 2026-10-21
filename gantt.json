@@ -12,8 +12,8 @@ var gantt_data = {
       "issue": "#1020",
       "parent": 0,
       "priority": "高",
-      "impact": "3",
-      "feasibility": "2"
+      "impact": "2",
+      "feasibility": "10"
     },
     {
       "id": 2,
@@ -28,8 +28,8 @@ var gantt_data = {
       "open": true,
       "parent": 0,
       "priority": "高",
-      "impact": "0",
-      "feasibility": "0"
+      "impact": "",
+      "feasibility": ""
     },
     {
       "id": 3,
@@ -69,7 +69,8 @@ var gantt_data = {
       "issue": "",
       "parent": 0,
       "priority": "",
-      "impact": ""
+      "impact": "6",
+      "feasibility": "6"
     },
     {
       "id": 6,
@@ -94,7 +95,7 @@ var gantt_data = {
       "issue": "",
       "parent": 0,
       "process": "ー",
-      "impact": "2",
+      "impact": "4",
       "feasibility": "3"
     },
     {
