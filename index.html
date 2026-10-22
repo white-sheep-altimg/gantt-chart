@@ -6,6 +6,7 @@
   <title>DHTMLX Gantt サンプル</title>
   <script src="./scripts/chart.umd.js"></script>
   <script src="./scripts/stacked_graph.js"></script>
+  <script src="./scripts/payoff.js"></script>
   <script src="./gantt/dhtmlxgantt.js"></script>
   <script src="gantt.json"></script>
   <link rel="stylesheet" href="./gantt/dhtmlxgantt.css">
@@ -107,7 +108,7 @@
         { key: "2", label: "2: 個人・チームで完結" },
         { key: "4", label: "4: 要連携" },
         { key: "6", label: "6: 効率に関わる・要報告" },
-        { key: "9", label: "8: 影響範囲広範" },
+        { key: "8", label: "8: 影響範囲広範" },
         { key: "10", label: "10: 重大事案" }
     ] };
     const feasibilityEditor = { type: "text", map_to: "feasibility", type: "select", options: [
@@ -341,86 +342,14 @@
   </script>
 
   <script>
-    // payoffチャートのデータ作成
-    let data = gantt_data.data;
-    let tasks = Array();
-    data.map(row => {
-        if (row.impact != undefined && row.impact != "" && row.impact > 0) {
-            tasks.push({x: row.impact,
-                        y: row.feasibility,
-                        label: row.text});
-        }
-    });
-    // 中央の線を描画するプラグイン
-    const quadrantPlugin = {
-      id: "quadrantLines",
-      afterDraw(chart) {
-        const { ctx, chartArea, scales } = chart;
-        const x = scales.x.getPixelForValue(5);
-        const y = scales.y.getPixelForValue(5);
+    // ペイオフチャート描画
+    const myPayoffChart = renderPayoffChart(gantt_data, "payoffChart");
 
-        ctx.save();
-        ctx.strokeStyle = "#9CA3AF";
-        ctx.setLineDash([5, 5]);
-        ctx.lineWidth = 1;
-
-        ctx.beginPath();
-        ctx.moveTo(x, chartArea.top);
-        ctx.lineTo(x, chartArea.bottom);
-        ctx.moveTo(chartArea.left, y);
-        ctx.lineTo(chartArea.right, y);
-        ctx.stroke();
-        ctx.restore();
-      }
-    };
-
-    new Chart(document.getElementById("payoffChart"), {
-      type: "scatter",
-      plugins: [quadrantPlugin],
-      data: {
-        datasets: [{
-          label: "対策案",
-          data: tasks,
-          pointRadius: 8,
-          pointHoverRadius: 12,
-          backgroundColor: "#3478C9"
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            min: 0,
-            max: 10,
-            title: {
-              display: true,
-              text: "Impact（重要度・影響度）"
-            }
-          },
-          y: {
-            min: 0,
-            max: 10,
-            title: {
-              display: true,
-              text: "Feasibility（実現可能性）"
-            }
-          }
-        },
-        plugins: {
-          tooltip: {
-            callbacks: {
-              label: (context) => {
-                const p = context.raw;
-                return `${p.label} (Impact: ${p.x}, Feasibility: ${p.y})`;
-              }
-            }
-          },
-          legend: {
-            display: false
-          }
-        }
-      }
-    });
+    function update_payoff_chart() {
+        const json_data = gantt.serialize();
+        updatePayoffChart(myPayoffChart, json_data);
+    }
+    $('redraw').addEventListener('click', update_payoff_chart);
   </script>
 
   <script>
