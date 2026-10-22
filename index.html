@@ -161,6 +161,17 @@
 	  return Math.round(item.progress * 100) + "%";
 	},
       },
+      { name: "delay", label: "遅延", width: 40, resize: true, align: "center",
+        template: function (item) {
+          if (item.progress < 1) {
+            dt = Math.round((new Date().getTime() - item.end_date.getTime()) / 86400000);
+            console.log("DIFF: " + dt);
+            if (dt <= 0) return "";
+            else return "<span style='color: #ff0000'>" + dt + "</span>";
+          }
+          else return "";
+        },
+      },
       { name: "issue", label: "Issue", width: 75, resize: true, align: "center", editor: issueEditor },
       { name: "add", width: 40 }
     ];
