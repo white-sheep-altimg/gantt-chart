@@ -18,6 +18,11 @@
 - 値が未定義または空の項目は「未設定」に集約
 - データ項目や期間が多い場合はグラフを横スクロールして表示
 
+### ペイオフチャート（Chart.js）
+
+- 重要度・実現可能性・優先度でペイオフチャートを作成
+- X・Y軸を選択可能
+
 ### ガントチャート（DHTMLX Gantt）
 
 - タスクのグリッド表示（タスク名、部署、開始日、完了日、日数、担当者、進捗、Issue）
@@ -39,6 +44,7 @@
 | --- | --- |
 | `index.html` | メイン画面、集計条件の入力欄、DHTMLX Gantt、Chart.js の読み込み |
 | `scripts/charts.js` | `gantt.json` の読み込み、休日判定、集計、グラフ描画 |
+| `scripts/payoff.js` | ペイオフチャート描画 |
 | `style/charts.css` | 集計グラフ画面のスタイル |
 | `style/gantt.css` | ガントチャートのスタイル |
 | `gantt/dhtmlxgantt.js` | DHTMLX Gantt ライブラリ（ラッパー） |
@@ -77,8 +83,6 @@ https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 ```text
 2026-07-20,2026-08-11
 ```
-
-項目数が多い場合は、グラフ表示領域を左右にスクロールしてください。
 
 ### ガントチャート
 
@@ -133,6 +137,7 @@ https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 | `end_date` | 完了日（`YYYY-MM-DD`） |
 | `duration` | 日数 |
 | `progress` | 進捗率（0〜1） |
+| `delay` | 遅延日数 |
 | `owner` | 担当者 |
 | `issue` | Issue 番号（`#` 付き） |
 | `parent` | 親タスクの ID（0 または省略で独立） |

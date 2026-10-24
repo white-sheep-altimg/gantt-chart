@@ -4,15 +4,19 @@
  * @param {string} [canvasId="payoffChart"] - 描画先canvas要素のID
  * @returns {Chart} 生成されたChart.jsのインスタンス
  */
+let xKey = "impact";
+let yKey = "feasibility";
+let tasks;
 function renderPayoffChart(gantt_data, canvasId = "payoffChart") {
   // payoffチャートのデータ作成
   let data = gantt_data.data;
-  let tasks = [];
+  tasks = [];
   data.map(row => {
     if (row.impact != undefined && row.impact != "" && row.impact > 0) {
       tasks.push({
-        x: row.impact,
-        y: row.feasibility,
+        impact: row.impact,
+        feasibility: row.feasibility,
+        priority: row.priority,
         label: row.text
       });
     }
@@ -41,14 +45,18 @@ function renderPayoffChart(gantt_data, canvasId = "payoffChart") {
     }
   };
 
-  // チャートを生成して返す
-  return new Chart(document.getElementById(canvasId), {
+  // チャートを生成
+  const myChart = new Chart(document.getElementById(canvasId), {
     type: "scatter",
     plugins: [quadrantPlugin],
     data: {
       datasets: [{
         label: "対策案",
-        data: tasks,
+        data: tasks.map(t => ({
+          x: t[xKey],
+          y: t[yKey],
+          task: t
+        })),
         pointRadius: 8,
         pointHoverRadius: 12,
         backgroundColor: "#3478C9"
@@ -78,8 +86,10 @@ function renderPayoffChart(gantt_data, canvasId = "payoffChart") {
         tooltip: {
           callbacks: {
             label: (context) => {
-              const p = context.raw;
-              return `${p.label} (Impact: ${p.x}, Feasibility: ${p.y})`;
+              const t = context.raw.task;
+              return `${t.label}: Impact=${t.impact}, ` +
+                `Feasibility=${t.feasibility}, ` +
+                `Priority=${t.priority}`;
             }
           }
         },
@@ -89,6 +99,43 @@ function renderPayoffChart(gantt_data, canvasId = "payoffChart") {
       }
     }
   });
+  document.getElementById("xAxisSelect")
+    .addEventListener("change", event => {
+      xKey = event.target.value;
+
+      myChart.data.datasets[0].data = tasks.map(t => ({
+        x: t[xKey],
+        y: t[yKey],
+        task: t
+      }));
+
+      myChart.options.scales.x.title.text =
+        xKey === "impact"
+        ? "Impact（重要度・影響度）"
+        : "Priority（優先度）";
+
+      myChart.update();
+    }
+  );
+  document.getElementById("yAxisSelect")
+    .addEventListener("change", event => {
+      yKey = event.target.value;
+
+      myChart.data.datasets[0].data = tasks.map(t => ({
+        x: t[xKey],
+        y: t[yKey],
+        task: t
+      }));
+
+      myChart.options.scales.y.title.text =
+        yKey === "feasibility"
+        ? "Feasibility（実現可能性）"
+        : "Priority（優先度）";
+
+      myChart.update();
+    }
+  );
+  return myChart;
 }
 
 /**
@@ -97,22 +144,27 @@ function renderPayoffChart(gantt_data, canvasId = "payoffChart") {
  * @param {Object} new_gantt_data - 新しいデータオブジェクト
  */
 function updatePayoffChart(chartInstance, new_gantt_data) {
-  // 1. 新しいデータ構造を作成
+  // 新しいデータ構造を作成
   let data = new_gantt_data.data;
-  let tasks = [];
+  tasks = [];
   data.map(row => {
     if (row.impact != undefined && row.impact != "" && row.impact > 0) {
       tasks.push({
-        x: row.impact,
-        y: row.feasibility,
+        impact: row.impact,
+        feasibility: row.feasibility,
+        priority: row.priority,
         label: row.text
       });
     }
   });
 
-  // 2. チャートのデータセットを更新
-  chartInstance.data.datasets[0].data = tasks;
+  // チャートのデータセットを更新
+  chartInstance.data.datasets[0].data = tasks.map(t => ({
+    x: t[xKey],
+    y: t[yKey],
+    task: t
+  }));
 
-  // 3. グラフを再描画（アニメーション付きで更新）
+  // グラフを再描画（アニメーション付きで更新）
   chartInstance.update();
 }

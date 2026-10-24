@@ -130,7 +130,7 @@ function draw() {
   const groupBy = $('groupBy').value;
   const result = aggregate(period, groupBy);
   const groups = [...result.totals.keys()].sort();
-  const width = Math.max(720, result.labels.length * 100);
+  const width = Math.max(1100, result.labels.length * 100);
   $('chartSize').style.width = `${width}px`;
   if (chart) chart.destroy();
   chart = new Chart($('summaryChart'), {

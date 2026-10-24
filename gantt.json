@@ -11,7 +11,7 @@ var gantt_data = {
       "owner": "山田 花子",
       "issue": "#1020",
       "parent": 0,
-      "priority": "高",
+      "priority": "10",
       "impact": "8",
       "feasibility": "4"
     },
@@ -27,7 +27,7 @@ var gantt_data = {
       "issue": "#9876",
       "open": true,
       "parent": 0,
-      "priority": "高",
+      "priority": "5",
       "impact": "",
       "feasibility": ""
     },
@@ -42,7 +42,7 @@ var gantt_data = {
       "owner": "佐藤 心音",
       "issue": "",
       "parent": 2,
-      "priority": "中"
+      "priority": "1"
     },
     {
       "id": 4,
@@ -55,7 +55,7 @@ var gantt_data = {
       "owner": "佐藤 一郎",
       "issue": "",
       "parent": 2,
-      "priority": "低"
+      "priority": "1"
     },
     {
       "id": 5,
@@ -68,7 +68,7 @@ var gantt_data = {
       "owner": "高橋 英典",
       "issue": "",
       "parent": 0,
-      "priority": "",
+      "priority": "5",
       "impact": "6",
       "feasibility": "8"
     },
@@ -96,7 +96,8 @@ var gantt_data = {
       "parent": 0,
       "process": "ー",
       "impact": "4",
-      "feasibility": "3"
+      "feasibility": "3",
+      "priority": "10"
     },
     {
       "id": 8,
@@ -134,7 +135,7 @@ var gantt_data = {
       "process": "マイルストーン",
       "owner": "",
       "issue": "",
-      "priority": "高"
+      "priority": "10"
     }
   ],
   "links": [

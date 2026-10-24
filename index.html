@@ -30,8 +30,22 @@
         </label>
         <button id="redraw" type="button">再集計</button>
       </section>
-      <p class="hint">期間は start_date と end_date の両日を含めて計算します。土日は除外し、日本の祝日も除外します。</p>
+      <section class="controls" aria-label="ペイオフチャート条件">
+        <b>ペイオフチャート</b>
+        <label for="xAxisSelect">X軸：</label>
+        <select id="xAxisSelect">
+          <option value="impact">Impact（重要度・影響度）</option>
+          <option value="priority">Priority（優先度）</option>
+        </select>
+        <label for="yAxisSelect">Y軸：</label>
+        <select id="yAxisSelect">
+          <option value="feasibility">Feasibility（実現可能性）</option>
+          <option value="priority">Priority（優先度）</option>
+        </select>
+      </section>
+      <p class="hint">期間は 開始日 と 完了日 の両日を含めて計算します。土日は除外し、日本の祝日も除外します。</p>
       <p id="status" class="status" role="status"></p>
+
       <section class="chart-scroll" aria-label="集計グラフ">
         <p class="legend-note">項目数が多い場合は、グラフ下部を横スクロールしてください。</p>
         <div id="chartSize" class="chart-size">
@@ -99,9 +113,9 @@
         { key: "テスト", label: "テスト" }
     ] };
     const priorityEditor = { type: "text", map_to: "priority", type: "select", options: [
-        { key: "高", label: "高" },
-        { key: "中", label: "中" },
-        { key: "低", label: "低" }
+        { key: "10", label: "10: 高" },
+        { key: "5", label: "5: 中" },
+        { key: "1", label: "1: 低" }
     ] };
     const impactEditor = { type: "text", map_to: "impact", type: "select", options: [
         { key: "", label: "ー" },
@@ -194,9 +208,9 @@
         { name: "impact", label: "重要度", height: 72, map_to: "impact", type: "textarea" },
         { name: "feasibility", label: "実現性", height: 72, map_to: "feasibility", type: "textarea" },
         { name: "priority", label: "優先度", height: 72, type: "select", options: [
-            { key: "高", label: "高" },
-            { key: "中", label: "中" },
-            { key: "低", label: "低" }
+            { key: "10", label: "10: 高" },
+            { key: "5", label: "5: 中" },
+            { key: "1", label: "1: 低" }
         ] },
         { name: "start_date", label: "開始日",   height: 72, type: "duration", map_to: "auto" },
         { name: "end_date",   label: "完了日",   height: 72, type: "duration", map_to: "auto" },
