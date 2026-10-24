@@ -114,23 +114,40 @@
     ] };
     const priorityEditor = { type: "text", map_to: "priority", type: "select", options: [
         { key: "10", label: "10: 高" },
+        { key: "9", label: "9" },
+        { key: "8", label: "8" },
+        { key: "7", label: "7" },
+        { key: "6", label: "6" },
         { key: "5", label: "5: 中" },
+        { key: "4", label: "4" },
+        { key: "3", label: "3" },
+        { key: "2", label: "2" },
         { key: "1", label: "1: 低" }
     ] };
     const impactEditor = { type: "text", map_to: "impact", type: "select", options: [
         { key: "", label: "ー" },
+        { key: "1", label: "1" },
         { key: "2", label: "2: 個人・チームで完結" },
+        { key: "3", label: "3" },
         { key: "4", label: "4: 要連携" },
+        { key: "5", label: "5" },
         { key: "6", label: "6: 効率に関わる・要報告" },
+        { key: "7", label: "7" },
         { key: "8", label: "8: 影響範囲広範" },
+        { key: "9", label: "9" },
         { key: "10", label: "10: 重大事案" }
     ] };
     const feasibilityEditor = { type: "text", map_to: "feasibility", type: "select", options: [
         { key: "", label: "ー" },
+        { key: "1", label: "1" },
         { key: "2", label: "2: 他部署と要調整または1ヶ月以上必要" },
+        { key: "3", label: "3" },
         { key: "4", label: "4: チームで1ヶ月未満で完了" },
+        { key: "5", label: "5" },
         { key: "6", label: "6: チームで1週間以内に完了" },
+        { key: "7", label: "7" },
         { key: "8", label: "8: チームで数日以内に完了" },
+        { key: "9", label: "9" },
         { key: "10", label: "10: 1人で1日以内に完了" }
     ] };
     const startDateEditor = { type: "date", map_to: "start_date", min: new Date(2026, 0, 1), max: new Date(2027,12,31) };
@@ -231,7 +248,7 @@
           duration:    t.duration,
           parent:      t.parent || null,
           progress:    t.progress,
-          // customフィールド
+          delay:       t.delay,
           issue:       t.issue,
           owner:       t.owner
       };
